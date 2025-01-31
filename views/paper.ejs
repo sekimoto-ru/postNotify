@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>郵送物通知</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @media print {
+            @page {
+                margin: 0;
+                size: A4;
+            }
+            body {
+                margin: 1cm;
+            }
+            .no-print {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body class="bg-white">
+    <div class="max-w-2xl mx-auto p-8">
+        <!-- 印刷ボタン（画面表示時のみ） -->
+        <div class="mb-8 no-print">
+            <button onclick="window.print()" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                印刷する
+            </button>
+        </div>
+
+        <!-- ヘッダー -->
+        <div class="text-center mb-8">
+            <h1 class="text-2xl font-bold">郵送物のお知らせ</h1>
+        </div>
+
+        <!-- 基本情報 -->
+        <div class="mb-8">
+            <table class="w-full border-collapse">
+                <tr class="border-b">
+                    <th class="py-2 px-4 text-left w-1/4">教員名</th>
+                    <td class="py-2 px-4"><%= package.teacher_name %> 様</td>
+                </tr>
+                <tr class="border-b">
+                    <th class="py-2 px-4 text-left">日時</th>
+                    <td class="py-2 px-4"><%= new Date(package.created_at).toLocaleString('ja-JP') %></td>
+                </tr>
+                <tr class="border-b">
+                    <th class="py-2 px-4 text-left">説明</th>
+                    <td class="py-2 px-4"><%= package.description %></td>
+                </tr>
+                <tr class="border-b">
+                    <th class="py-2 px-4 text-left">台車</th>
+                    <td class="py-2 px-4">
+                        <% if (package.requires_cart) { %>
+                            <span class="text-red-600 font-bold">必要</span>
+                        <% } else { %>
+                            不要
+                        <% } %>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- QRコード -->
+        <div class="text-center">
+            <div class="mb-4">
+                <p class="text-sm text-gray-600 mb-2">以下のQRコードを使用して受け取り確認を行ってください</p>
+                <img src="<%= package.qr_code %>" alt="QRコード" class="mx-auto border p-2" style="width: 200px; height: 200px;">
+            </div>
+        </div>
+
+        <!-- フッター -->
+        <div class="mt-8 text-center text-sm text-gray-500">
+            <p>※ この用紙は郵送物受け取りの際に必要となります</p>
+        </div>
+    </div>
+</body>
+</html>

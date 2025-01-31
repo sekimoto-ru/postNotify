@@ -1,0 +1,105 @@
+<div class="max-w-4xl mx-auto">
+    <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+        <div class="flex justify-between items-center mb-6">
+            <h1 class="text-2xl font-bold text-gray-700">郵送物詳細</h1>
+            <div class="space-x-2">
+                <a href="/packages/<%= package.id %>/paper" target="_blank" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                    用紙出力
+                </a>
+                <a href="/packages" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
+                    一覧へ戻る
+                </a>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 gap-6">
+            <!-- 基本情報 -->
+            <div class="border rounded-lg p-6">
+                <h2 class="text-xl font-bold mb-4 text-gray-700">基本情報</h2>
+                <dl class="grid grid-cols-2 gap-4">
+                    <dt class="text-sm font-medium text-gray-500">登録日時</dt>
+                    <dd class="text-sm text-gray-900">
+                        <%= new Date(package.created_at).toLocaleString('ja-JP') %>
+                    </dd>
+
+                    <dt class="text-sm font-medium text-gray-500">教員名</dt>
+                    <dd class="text-sm text-gray-900"><%= package.teacher_name %></dd>
+
+                    <dt class="text-sm font-medium text-gray-500">説明</dt>
+                    <dd class="text-sm text-gray-900"><%= package.description %></dd>
+
+                    <dt class="text-sm font-medium text-gray-500">台車</dt>
+                    <dd class="text-sm text-gray-900">
+                        <% if (package.requires_cart) { %>
+                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                                必要
+                            </span>
+                        <% } else { %>
+                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">
+                                不要
+                            </span>
+                        <% } %>
+                    </dd>
+
+                    <dt class="text-sm font-medium text-gray-500">状態</dt>
+                    <dd class="text-sm text-gray-900">
+                        <% if (package.status === 'received') { %>
+                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                受取済
+                            </span>
+                        <% } else { %>
+                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
+                                未受取
+                            </span>
+                        <% } %>
+                    </dd>
+
+                    <% if (package.received_at) { %>
+                        <dt class="text-sm font-medium text-gray-500">受取日時</dt>
+                        <dd class="text-sm text-gray-900">
+                            <%= new Date(package.received_at).toLocaleString('ja-JP') %>
+                        </dd>
+                    <% } %>
+                </dl>
+            </div>
+
+            <!-- QRコード -->
+            <div class="border rounded-lg p-6">
+                <h2 class="text-xl font-bold mb-4 text-gray-700">QRコード</h2>
+                <div class="flex justify-center">
+                    <img src="<%= package.qr_code %>" alt="QRコード" class="border p-2">
+                </div>
+            </div>
+
+            <!-- 通知履歴 -->
+            <div class="border rounded-lg p-6">
+                <h2 class="text-xl font-bold mb-4 text-gray-700">通知履歴</h2>
+                <div class="space-y-4">
+                    <% notifications.forEach(function(notification) { %>
+                        <div class="flex items-center space-x-4 p-2 border-b">
+                            <div class="flex-1">
+                                <p class="text-sm font-medium text-gray-900">
+                                    <%= notification.type === 'email' ? 'メール通知' : 'Teams通知' %>
+                                </p>
+                                <p class="text-sm text-gray-500">
+                                    <%= new Date(notification.created_at).toLocaleString('ja-JP') %>
+                                </p>
+                            </div>
+                            <div>
+                                <% if (notification.status === 'success') { %>
+                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                        成功
+                                    </span>
+                                <% } else { %>
+                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800" title="<%= notification.error_message %>">
+                                        失敗
+                                    </span>
+                                <% } %>
+                            </div>
+                        </div>
+                    <% }); %>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>郵送物通知システム</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <%- defineContent('scripts') %>
+</head>
+<body class="bg-gray-100">
+    <nav class="bg-white shadow-lg">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="flex justify-between">
+                <div class="flex space-x-7">
+                    <div>
+                        <a href="/" class="flex items-center py-4">
+                            <span class="font-semibold text-gray-500 text-lg">郵送物通知システム</span>
+                        </a>
+                    </div>
+                    <div class="flex items-center space-x-1">
+                        <a href="/" class="py-4 px-2 text-gray-500 hover:text-green-500">新規登録</a>
+                        <a href="/packages" class="py-4 px-2 text-gray-500 hover:text-green-500">郵送物一覧</a>
+                        <a href="/teachers" class="py-4 px-2 text-gray-500 hover:text-green-500">教員一覧</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mx-auto px-4 py-8">
+        <%- body %>
+    </div>
+
+    <footer class="bg-white shadow-lg mt-8">
+        <div class="container mx-auto px-4 py-4">
+            <p class="text-center text-gray-500">&copy; 2024 郵送物通知システム</p>
+        </div>
+    </footer>
+</body>
+</html>
