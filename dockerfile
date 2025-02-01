@@ -7,6 +7,9 @@ WORKDIR /usr/src/app
 # node_modulesディレクトリを削除
 RUN rm -rf node_modules
 
+# /databaseにpostnotify.dbがない場合はinit.jsを実行
+RUN test -f /database/postnotify.db || node init.js
+
 # package.jsonとpackage-lock.jsonをコピー
 COPY package*.json ./
 
