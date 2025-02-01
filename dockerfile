@@ -7,8 +7,8 @@ WORKDIR /usr/src/app
 # node_modulesディレクトリを削除
 RUN rm -rf node_modules
 
-# /databaseにpostnotify.dbがない場合はinit.jsを実行
-RUN test -f /database/postnotify.db || node init.js
+# init.jsを実行してデータベースを初期化
+RUN node database/init.js
 
 # package.jsonとpackage-lock.jsonをコピー
 COPY package*.json ./
@@ -24,4 +24,3 @@ EXPOSE 3000
 
 # アプリケーションを起動
 CMD ["npm", "start"]
-# CMD ["node", "server.js"]
