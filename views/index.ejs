@@ -69,7 +69,7 @@
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     // 教員一覧の取得
-    fetch('${basePath}/teachers', {
+    fetch('<%= basePath %>/teachers', {
         headers: {
             'Accept': 'application/json'
         }
