@@ -3,10 +3,10 @@
         <div class="flex justify-between items-center mb-6">
             <h1 class="text-2xl font-bold text-gray-700">郵送物詳細</h1>
             <div class="space-x-2">
-                <a href="/packages/<%= package.id %>/paper" target="_blank" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                <a href="<%= basePath %>/packages/<%= package.id %>/paper" target="_blank" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
                     用紙出力
                 </a>
-                <a href="/packages" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
+                <a href="<%= basePath %>/packages" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
                     一覧へ戻る
                 </a>
             </div>
