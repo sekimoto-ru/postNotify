@@ -107,7 +107,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (data.success) {
                 document.getElementById('packageForm').reset();
                 if (data.showPaper) {
-                    document.getElementById('paperButton').href = `/packages/${data.packageId}/paper`;
+                    document.getElementById('paperButton').href = `<%= basePath %>/packages/${data.packageId}/paper`;
                     document.getElementById('resultArea').classList.remove('hidden');
                 } else {
                     alert('登録が完了しました');
