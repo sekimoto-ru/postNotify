@@ -43,14 +43,31 @@
 3. 環境変数を設定します。`.env`ファイルを作成し、以下の内容を記述します。
 
     ```env
-    BASE_PATH=/
+    # アプリケーション設定
     PORT=3000
+    BASE_URL=http://localhost:3000
+    BASE_PATH="/rdx/post-notify"
+
+    # メール設定（開発用ダミー設定）
+    SMTP_HOST=smtp.mailtrap.io
+    SMTP_PORT=2525
+    SMTP_USER=test
+    SMTP_PASS=test
+    SMTP_FROM=noreply@example.com
+
+    # Teams設定（実際のWebhook URLに置き換えが必要）
+    TEAMS_WEBHOOK_URL=https://outlook.office.com/webhook/...
+
+    # データベース設定
+    DB_PATH=database/postnotify.db
+
     ```
 
 4. Dockerコンテナーをビルドして起動します。
 
     ```bash
-    docker-compose up --build
+    docker build -t post-notify .
+    docker run -p 3000:3000 --name post-notify post-notify
     ```
 
 5. ブラウザで`http://localhost:3000`にアクセスします。
