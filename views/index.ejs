@@ -95,7 +95,7 @@ document.addEventListener('DOMContentLoaded', function() {
             requiresCart: document.getElementById('requiresCart').checked
         };
 
-        fetch('/packages', {
+        fetch('<%= basePath %>/packages', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
