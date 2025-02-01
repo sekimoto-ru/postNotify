@@ -11,6 +11,15 @@ const app = express();
 app.use(expressLayouts);
 app.set('layout', 'layout');
 
+// ベースパスの設定（環境変数から取得するか、デフォルト値を使用）
+const BASE_PATH = process.env.BASE_PATH || '/';
+
+// ベースパスのための変数をすべてのテンプレートで利用可能にする
+app.use((req, res, next) => {
+    res.locals.basePath = BASE_PATH;
+    next();
+});
+
 // メール設定
 const transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST,

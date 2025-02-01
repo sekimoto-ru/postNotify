@@ -1,13 +1,22 @@
 const express = require('express');
 const app = express();
-const pool = require('./db'); // Assuming you have a db.js file for database connection
+const pool = require('./db');
 
 app.set('view engine', 'ejs');
 app.set('views', './views');
 app.use(express.json());
 
+// ベースパスの設定（環境変数から取得するか、デフォルト値を使用）
+const BASE_PATH = process.env.BASE_PATH || '/';
+
+// ベースパスのための変数をすべてのテンプレートで利用可能にする
+app.use((req, res, next) => {
+    res.locals.basePath = BASE_PATH;
+    next();
+});
+
 // 教員情報の取得
-app.get('/teachers/:id', async (req, res) => {
+app.get(`${BASE_PATH}/teachers/:id`, async (req, res) => {
     try {
         const { rows } = await pool.query(
             'SELECT id, name, furigana, email, notification_paper, notification_email, notification_teams, teams_id, department FROM teachers WHERE id = $1',
@@ -21,12 +30,15 @@ app.get('/teachers/:id', async (req, res) => {
 });
 
 // 教員一覧の取得
-app.get('/', async (req, res) => {
+app.get(`${BASE_PATH}/`, async (req, res) => {
     try {
         const { rows } = await pool.query(
             'SELECT id, name, furigana, email, notification_paper, notification_email, notification_teams, teams_id, department FROM teachers ORDER BY furigana'
         );
-        res.render('teachers', { teachers: rows });
+        res.render('teachers', { 
+            teachers: rows,
+            basePath: BASE_PATH
+        });
     } catch (err) {
         console.error(err);
         res.status(500).send('サーバーエラーが発生しました');
@@ -34,7 +46,7 @@ app.get('/', async (req, res) => {
 });
 
 // 教員情報の更新
-app.put('/teachers/:id', async (req, res) => {
+app.put(`${BASE_PATH}/teachers/:id`, async (req, res) => {
     try {
         const { name, furigana, email, notification_paper, notification_email, notification_teams, teams_id, department } = req.body;
         await pool.query(
